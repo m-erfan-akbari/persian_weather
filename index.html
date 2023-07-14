@@ -12,37 +12,38 @@
   <div id="container-weather" class="card mx-auto mt-5 bg-secondary">
     <!-- <img src="..." class="card-img-top" alt="..."> -->
     <div class="card-body">
-      <form class="row px-2">
-        <label for="input-city" class="col-sm-2 pt-2">نام شهر: </label>
-        <input id="search-city" class="col-sm form-control form-control rounded-pill" type="text" list="state-list" placeholder="نام شهر مرکز استان را وارد نمائید...">
+      <form id="search-form" class="row px-2">
+        <label for="search-city-input" class="col-sm-2 pt-2">نام شهر: </label>
+        <input id="search-city-input" class="col-sm form-control form-control rounded-pill" type="text" list="state-list" placeholder="نام را وارد نمائید...">
         <datalist id="state-list"></datalist>
         <i id="search-btn" class="col-sm-1 m-2 m-sm-0 ms-sm-3 rounded-circle bi bi-search btn"></i>
       </form>
-      <div id="wether-container" class="row align-items-center flex-column text-center">
-        <img id="weather-image" src="./images/clear.png" alt="تصویر آب و هوا" class="col-8 col-sm-5 col-md-4 mt-3">
-        <p id="text-temperature" class="display-3 m-0">22°c</p>
-        <p id="text-city" class="h1">مشهد</p>
+      <div id="wether-container" class="row align-items-center flex-column text-center d-none">
+        <img id="weather-image" src="" alt="تصویر آب و هوا" class="col-8 col-sm-5 col-md-4 mt-3">
+        <p id="text-temperature" class="display-3 m-0"></p>
+        <p id="text-city" class="h1"></p>
+        <p id="text-description" class="h3"></p>
         <div class="row my-3">
           <div class="col-sm-6 my-2 text-light">
-            <span class="h5">باد</span>
-            <span id="text-wind" class="h5" dir="ltr">6 km/h</span>
+            <span class="h5"></span>
+            <span id="text-wind" class="h5" dir="ltr"></span>
             <img src="./images/wind.png" alt="تصویر باد" class="w-25">
           </div>
           <div class="col-sm-6 my-2 text-light">
             <span class="h5">رطوبت</span>
-            <span id="text-humidity" class="h5" dir="ltr">10%</span>
+            <span id="text-humidity" class="h5" dir="ltr"></span>
             <img src="./images/humidity.png" alt="تصویر رطوبت" class="w-25">
           </div>
         </div>
         <div class="row my-3">
           <div class="col-sm-6 text-light d-flex justify-content-center">
             <span class="h5 mt-4">طلوع</span>
-            <span id="text-sunrise" class="h5 mt-4" dir="ltr">4:20:05</span>
+            <span id="text-sunrise" class="h5 mt-4" dir="ltr"></span>
             <img src="./images/sunrise.png" alt="تصویر طلوع" class="w-25 ms-3">
           </div>
           <div class="col-sm-6 text-light d-flex justify-content-center">
             <span class="h5 mt-4">غروب</span>
-            <span id="text-sunset" class="h5 mt-4" dir="ltr">18:50:05</span>
+            <span id="text-sunset" class="h5 mt-4" dir="ltr"></span>
             <img src="./images/sunset.png" alt="تصویر غروب" class="w-25 ms-3">
           </div>
         </div>

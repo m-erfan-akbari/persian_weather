@@ -1,8 +1,9 @@
 const selectState = document.querySelector('#select-state');
 const dataListState = document.querySelector('#state-list');
-const searchCity = document.querySelector('#search-city');
+const searchCityInput = document.querySelector('#search-city-input');
 const searchBtn = document.querySelector('#search-btn');
-const form = document.querySelector('form');
+const searchFrom = document.querySelector('#search-form');
+const wetherContainer = document.querySelector('#wether-container');
 
 const iranStates = {
   'Tabriz': 'تبریز',
@@ -37,23 +38,30 @@ const iranStates = {
   'Hamadan': 'همدان',
   'Yazd': 'یزد'
 }
-// addEventListener('submit')
-form.addEventListener('submit', (e) => {
-  e.preventDefault();
-})
+
 
 async function execute() {
+  searchFrom.addEventListener('submit', (e) => {
+    e.preventDefault();
+  })
+
   fillDatalist(dataListState, iranStates);
   searchBtn.addEventListener('click', async (e) => {
-    const cityName = findCityEnglishName(searchCity.value);
+    const cityName = searchCityInput.value;
+
+    if(cityName === ''){
+      errorNotifiction('نام شهر را وارد کنید!');
+      return;
+    }
 
     const data = await searchWeather(cityName);
     if(data['cod'] == 404){
-      errorNotifiction('خطا در دریافت اطلاعات.');
+      errorNotifiction('شهر یافت نشد.');
       return;
     }
     const dataSimplified = await cityInfo(data);
     setWeatherToDOM(dataSimplified);
+    wetherContainer.classList.replace('d-none', 'd-block');
   })
 }
 
@@ -61,7 +69,7 @@ execute();
 
 function fillDatalist(selectContainer, obj) {
   for (const key in obj) {
-    const value = iranStates[key];
+    const value = obj[key];
     const optionElement = document.createElement('option');
     optionElement.value = value;
     optionElement.setAttribute('data-value', key);
@@ -69,24 +77,9 @@ function fillDatalist(selectContainer, obj) {
   }
 }
 
-function findCityEnglishName(perianName) {
-  let cityName = '';
-  if(perianName === ''){
-    errorNotifiction('نام شهر را وارد کنید!');
-    cityName = '';
-  }
-  for (const key in iranStates) {
-    const element = iranStates[key];
-    if(element === perianName){
-      return key;
-    }
-  }
-  return '';
-}
-
 async function searchWeather(city) {
   const apiKey = 'cfbdccebe58f79a4e1c5de3700f4f8d5';
-  const apiURL = 'https://api.openweathermap.org/data/2.5/weather?&units=metric';
+  const apiURL = 'https://api.openweathermap.org/data/2.5/weather?&units=metric&lang=fa';
   let apiWeather = `${apiURL}&appid=${apiKey}&q=${city}`;
   const res = await fetch(apiWeather);
   return await res.json();
@@ -96,14 +89,15 @@ async function searchWeather(city) {
 async function cityInfo(object) {
   const temperature = await object["main"]["temp"];
   const weather = await object["weather"][0]["main"];
+  const weatherDescription = await object["weather"][0]["description"];
   const humidity = await object["main"]["humidity"];
-  const wind = await object["wind"]["speed"];
+  const wind = Math.floor(await object["wind"]["speed"] * 3.6);
   const sunrise = convertObjectToStringTime(convertUnixTime(await object["sys"]["sunrise"]));
   const sunset = convertObjectToStringTime(convertUnixTime(await object["sys"]["sunset"]));
   const city = await object["name"];
 
   return({
-    temperature, humidity, wind, sunrise, sunset, city, weather
+    temperature, humidity, wind, sunrise, sunset, city, weather, weatherDescription
   })
 }
 
@@ -112,13 +106,15 @@ function setWeatherToDOM(object) {
   const weatherImage  = document.querySelector('#weather-image');
   const textTemperature  = document.querySelector('#text-temperature');
   const textCity  = document.querySelector('#text-city');
+  const textDescription  = document.querySelector('#text-description');
   const textWind  = document.querySelector('#text-wind');
   const textHumidity  = document.querySelector('#text-humidity');
   const textSunrise  = document.querySelector('#text-sunrise');
   const textSunset  = document.querySelector('#text-sunset');
 
   textTemperature.textContent = `${Math.round(object["temperature"])}°c`;
-  textCity.textContent = iranStates[object["city"]] || object["city"];
+  textCity.textContent = object["city"];
+  textDescription.textContent = object["weatherDescription"];
   textWind.textContent = `${object["wind"]} km/h`;
   textHumidity.textContent = `${object["humidity"]}%`;
   textSunrise.textContent = `${object["sunrise"]}`;
