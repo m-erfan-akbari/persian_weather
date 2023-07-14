@@ -56,7 +56,7 @@ async function execute() {
 
     const data = await searchWeather(cityName);
     if(data['cod'] == 404){
-      errorNotifiction('شهر یافت نشد.');
+      errorNotifiction('شهر یافت نشد. درصورت جستجو فارسی، نام انگلیسی شهر را امتحان کنید.');
       return;
     }
     const dataSimplified = await cityInfo(data);
@@ -90,14 +90,15 @@ async function cityInfo(object) {
   const temperature = await object["main"]["temp"];
   const weather = await object["weather"][0]["main"];
   const weatherDescription = await object["weather"][0]["description"];
+  const weatherIcon = await object["weather"][0]["icon"];
   const humidity = await object["main"]["humidity"];
   const wind = Math.floor(await object["wind"]["speed"] * 3.6);
   const sunrise = convertObjectToStringTime(convertUnixTime(await object["sys"]["sunrise"]));
   const sunset = convertObjectToStringTime(convertUnixTime(await object["sys"]["sunset"]));
   const city = await object["name"];
-
+  
   return({
-    temperature, humidity, wind, sunrise, sunset, city, weather, weatherDescription
+    temperature, humidity, wind, sunrise, sunset, city, weather, weatherDescription, weatherIcon
   })
 }
 
@@ -120,25 +121,26 @@ function setWeatherToDOM(object) {
   textSunrise.textContent = `${object["sunrise"]}`;
   textSunset.textContent = `${object["sunset"]}`;
 
-  switch (object["weather"]) {
-    case 'Clouds':
-      weatherImage.src = '../images/clouds.png'
-      break;
-    case 'Clear':
-      weatherImage.src = '../images/clear.png'
-      break;
-    case 'Rain':
-      weatherImage.src = '../images/rain.png'
-      break;
-    case 'Drizzle':
-      weatherImage.src = '../images/drizzle.png'
-      break;
-    case 'Mist':
-      weatherImage.src = '../images/mist.png'
-      break;
-    default:
-      break;
-  }
+  weatherImage.src = `https://openweathermap.org/img/wn/${object["weatherIcon"]}@2x.png`;
+  // switch (object["weather"]) {
+  //   case 'Clouds':
+  //     weatherImage.src = '../images/clouds.png'
+  //     break;
+  //   case 'Clear':
+  //     weatherImage.src = '../images/clear.png'
+  //     break;
+  //   case 'Rain':
+  //     weatherImage.src = '../images/rain.png'
+  //     break;
+  //   case 'Drizzle':
+  //     weatherImage.src = '../images/drizzle.png'
+  //     break;
+  //   case 'Mist':
+  //     weatherImage.src = '../images/mist.png'
+  //     break;
+  //   default:
+  //     break;
+  // }
 }
 
  function errorNotifiction(errorMessage) {
