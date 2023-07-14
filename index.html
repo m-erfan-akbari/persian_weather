@@ -9,16 +9,59 @@
   <link rel="stylesheet" href="./style/main.css">
 </head>
 <body dir="rtl">
-  <div id="container-weather" class="card mx-auto mt-5">
+  <div id="container-weather" class="card mx-auto mt-5 bg-secondary">
     <!-- <img src="..." class="card-img-top" alt="..."> -->
     <div class="card-body">
       <form class="row px-2">
-        <label for="input-city" class="col-sm-2 pt-3">نام شهر: </label>
-        <input id="search-city" class="col-sm form-control rounded-pill" type="text" list="state-list" placeholder="نام شهر مرکز استان را وارد نمائید...">
+        <label for="input-city" class="col-sm-2 pt-2">نام شهر: </label>
+        <input id="search-city" class="col-sm form-control form-control rounded-pill" type="text" list="state-list" placeholder="نام شهر مرکز استان را وارد نمائید...">
         <datalist id="state-list"></datalist>
-        <i id="search-btn" class="col-sm-1 m-2 ms-sm-3 rounded-circle bi bi-search btn"></i>
+        <i id="search-btn" class="col-sm-1 m-2 m-sm-0 ms-sm-3 rounded-circle bi bi-search btn"></i>
       </form>
-      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+      <div id="wether-container" class="row align-items-center flex-column text-center">
+        <img id="weather-image" src="./images/clear.png" alt="تصویر آب و هوا" class="col-8 col-sm-5 col-md-4 mt-3">
+        <p id="text-temperature" class="display-3 m-0">22°c</p>
+        <p id="text-city" class="h1">مشهد</p>
+        <div class="row my-3">
+          <div class="col-sm-6 my-2 text-light">
+            <span class="h5">باد</span>
+            <span id="text-wind" class="h5" dir="ltr">6 km/h</span>
+            <img src="./images/wind.png" alt="تصویر باد" class="w-25">
+          </div>
+          <div class="col-sm-6 my-2 text-light">
+            <span class="h5">رطوبت</span>
+            <span id="text-humidity" class="h5" dir="ltr">10%</span>
+            <img src="./images/humidity.png" alt="تصویر رطوبت" class="w-25">
+          </div>
+        </div>
+        <div class="row my-3">
+          <div class="col-sm-6 text-light d-flex justify-content-center">
+            <span class="h5 mt-4">طلوع</span>
+            <span id="text-sunrise" class="h5 mt-4" dir="ltr">4:20:05</span>
+            <img src="./images/sunrise.png" alt="تصویر طلوع" class="w-25 ms-3">
+          </div>
+          <div class="col-sm-6 text-light d-flex justify-content-center">
+            <span class="h5 mt-4">غروب</span>
+            <span id="text-sunset" class="h5 mt-4" dir="ltr">18:50:05</span>
+            <img src="./images/sunset.png" alt="تصویر غروب" class="w-25 ms-3">
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <!-- error notification -->
+  <div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="toast-header">
+        <i class="rounded me-2 bi bi-dash-circle-fill text-danger"></i>
+        <strong class="me-auto">خطا!</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+      <div class="toast-body">
+        <p id="toast-message" class="text-dark m-0"></p>
+      </div>
     </div>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
