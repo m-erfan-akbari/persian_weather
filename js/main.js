@@ -96,7 +96,7 @@ async function cityInfo(object) {
   const sunrise = convertObjectToStringTime(convertUnixTime(await object["sys"]["sunrise"]));
   const sunset = convertObjectToStringTime(convertUnixTime(await object["sys"]["sunset"]));
   const city = await object["name"];
-  
+
   return({
     temperature, humidity, wind, sunrise, sunset, city, weather, weatherDescription, weatherIcon
   })
@@ -122,25 +122,6 @@ function setWeatherToDOM(object) {
   textSunset.textContent = `${object["sunset"]}`;
 
   weatherImage.src = `https://openweathermap.org/img/wn/${object["weatherIcon"]}@2x.png`;
-  // switch (object["weather"]) {
-  //   case 'Clouds':
-  //     weatherImage.src = '../images/clouds.png'
-  //     break;
-  //   case 'Clear':
-  //     weatherImage.src = '../images/clear.png'
-  //     break;
-  //   case 'Rain':
-  //     weatherImage.src = '../images/rain.png'
-  //     break;
-  //   case 'Drizzle':
-  //     weatherImage.src = '../images/drizzle.png'
-  //     break;
-  //   case 'Mist':
-  //     weatherImage.src = '../images/mist.png'
-  //     break;
-  //   default:
-  //     break;
-  // }
 }
 
  function errorNotifiction(errorMessage) {
